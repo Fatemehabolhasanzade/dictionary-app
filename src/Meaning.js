@@ -9,7 +9,10 @@ function Meaning(item) {
             </h5>
             {item.item.definitions.map(def => {
                 return (
-                    <Definition definition={def} />
+                    <Definition
+                        definition={def}
+                        key={def.definition}
+                    />
                 )
             })}
         </div>
