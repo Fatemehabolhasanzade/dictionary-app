@@ -12,7 +12,7 @@ function App() {
 
   useEffect(() => {
     getMeaning();
-  }, [searchWord]);
+  }, []);
 
   function getMeaning() {
     try {
