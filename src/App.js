@@ -1,19 +1,19 @@
 import './App.css';
-import React, { useState, useEffect, Component } from "react";
+import React, { useState, useEffect } from "react";
 import Meaning from './Meaning';
 import ErrorBaoundry from './ErrorBaoundry';
 
 function App() {
 
-  const [searchWord, setSearchWord] = useState("good");
-  const [data, setData] = useState([{ "word": "hello", "phonetic": "həˈləʊ", "phonetics": [{ "text": "həˈləʊ", "audio": "//ssl.gstatic.com/dictionary/static/sounds/20200429/hello--_gb_1.mp3" }, { "text": "hɛˈləʊ" }], "origin": "early 19th century: variant of earlier hollo ; related to holla.", "meanings": [{ "partOfSpeech": "exclamation", "definitions": [{ "definition": "used as a greeting or to begin a phone conversation.", "example": "hello there, Katie!", "synonyms": [], "antonyms": [] }] }, { "partOfSpeech": "noun", "definitions": [{ "definition": "an utterance of ‘hello’; a greeting.", "example": "she was getting polite nods and hellos from people", "synonyms": [], "antonyms": [] }] }, { "partOfSpeech": "verb", "definitions": [{ "definition": "say or shout ‘hello’.", "example": "I pressed the phone button and helloed", "synonyms": [], "antonyms": [] }] }] }]);
+  const [searchWord, setSearchWord] = useState("hello");
+  const [data, setData] = useState({ "word": "hello", "phonetic": "həˈləʊ", "phonetics": [{ "text": "həˈləʊ", "audio": "//ssl.gstatic.com/dictionary/static/sounds/20200429/hello--_gb_1.mp3" }, { "text": "hɛˈləʊ" }], "origin": "early 19th century: variant of earlier hollo ; related to holla.", "meanings": [{ "partOfSpeech": "exclamation", "definitions": [{ "definition": "used as a greeting or to begin a phone conversation.", "example": "hello there, Katie!", "synonyms": [], "antonyms": [] }] }, { "partOfSpeech": "noun", "definitions": [{ "definition": "an utterance of ‘hello’; a greeting.", "example": "she was getting polite nods and hellos from people", "synonyms": [], "antonyms": [] }] }, { "partOfSpeech": "verb", "definitions": [{ "definition": "say or shout ‘hello’.", "example": "I pressed the phone button and helloed", "synonyms": [], "antonyms": [] }] }] });
   const [loading, setLoading] = useState(false);
   const url = `https://api.dictionaryapi.dev/api/v2/entries/en/${searchWord}`
 
-  // useEffect(() => {
+  useEffect(() => {
 
-  //   getMeaning();
-  // }, []);
+    getMeaning();
+  }, []);
 
   function getMeaning() {
     try {
@@ -22,9 +22,8 @@ function App() {
       const { error } = fetch(url)
         .then(res => res.json())
         .then(data => {
-          const result = JSON.stringify(data);
-          console.log(`data recived fron api for the word "${searchWord}":`, result);
-          setData(result);
+          console.log(`data recived fron api for the word "${searchWord}":`, data);
+          setData(data[0]);
 
         })
         .then(() => {
@@ -39,19 +38,17 @@ function App() {
     }
   }
 
-  // console.log(searchWord);
-  // console.log(data);
-
   function playAudio() {
-    try {
-      let { audio, error } = new Audio(data[0].phonetics[0].audio);
-      audio.play();
-      if (error) {
-        throw error
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    // try {
+    let sound = new Audio(data.phonetics[0].audio);
+    console.log(sound);
+    sound.play();
+    //     if (error) {
+    //       throw error
+    //     }
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
   }
 
   return (
@@ -92,8 +89,8 @@ function App() {
       <ErrorBaoundry>
         {!loading && <div className="Result">
 
-          <h2>{data[0].word}</h2>
-          <span>/{data[0].phonetic}/  </span>
+          <h2>{data.word}</h2>
+          <span>/{data.phonetic}/  </span>
 
           <button
             onClick={() => {
@@ -109,7 +106,7 @@ function App() {
             </svg>
           </button>
 
-          {data[0].meanings.map((item) => {
+          {data.meanings.map((item) => {
             return (
               <Meaning
                 item={item}
