@@ -10,7 +10,7 @@ function Definition(definition) {
                 <p className='example'>
                     <span>{definition.definition.example}</span>
                 </p>
-                {definition.definition.synonyms == [] ?
+                {definition.definition.synonyms === [] ?
                     <p className='synonym'>
                         <span>similar to:</span>
                         {definition.definition.synonyms.map(item => {
@@ -19,7 +19,7 @@ function Definition(definition) {
                         })}
                     </p> : ""}
 
-                {definition.definition.antoonyms == [] ?
+                {definition.definition.antoonyms === [] ?
                     <p className='antonym'>
                         <span>opposite of:</span>
                         {definition.definition.antonyms.map(item => {

@@ -11,9 +11,8 @@ function App() {
   const url = `https://api.dictionaryapi.dev/api/v2/entries/en/${searchWord}`
 
   useEffect(() => {
-
     getMeaning();
-  }, []);
+  }, [searchWord]);
 
   function getMeaning() {
     try {
